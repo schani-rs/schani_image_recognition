@@ -1,0 +1,11 @@
+[package]
+name = "schani_image_recognition"
+version = "0.1.0"
+authors = ["Christoph Wurst <christoph@winzerhof-wurst.at>"]
+
+[dependencies]
+rocket = "0.2.6"
+rocket_codegen = "0.2.6"
+rocket_contrib = "0.2.6"
+serde = "0.9"
+serde_derive = "0.9"
