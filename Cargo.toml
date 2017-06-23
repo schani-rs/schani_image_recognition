@@ -4,6 +4,11 @@ version = "0.1.0"
 authors = ["Christoph Wurst <christoph@winzerhof-wurst.at>"]
 
 [dependencies]
-rocket = "0.2.6"
-rocket_codegen = "0.2.6"
-rocket_contrib = "0.2.6"
+log = "^0.3"
+rocket = "0.2.8"
+rocket_codegen = "0.2.8"
+rocket_contrib = "0.2.8"
+serde = "^0.9"
+serde_derive = "^0.9"
+serde_json = "^0.9"
+temporary = "0.6.3"
