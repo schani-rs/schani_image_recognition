@@ -17,7 +17,6 @@ addons:
 
 install:
   - python --version
-  - pip3 install --upgrade pip3
   - pip3 install tensorflow
 
 script:
