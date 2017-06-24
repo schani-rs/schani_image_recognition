@@ -52,7 +52,7 @@ pub fn process_image(image_stream: &mut Read) -> Result<Vec<Prediction>, String>
     // let script = env::var("SCRIPT_LOCATION").expect("SCRIPT_LOCATION must be set");
     debug!("--image_file {:?}", file_path);
     let out = try!(
-        Command::new("python")
+        Command::new("python3")
             .arg(
                 "tensorflow_models/tutorials/image/imagenet/classify_image.py",
             )
