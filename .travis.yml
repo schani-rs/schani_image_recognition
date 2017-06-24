@@ -1,3 +1,5 @@
+dist: trusty
+sudo: required
 language: rust
 rust: nightly
 
@@ -6,6 +8,16 @@ branches:
   - master
 
 cache: cargo
+
+addons:
+  apt:
+    packages:
+    - python3
+    - python3-pip
+
+install:
+  - python --version
+  - pip3 install tensorflow
 
 script:
   # Copy testing env file if one exists
