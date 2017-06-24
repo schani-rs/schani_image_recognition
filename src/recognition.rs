@@ -62,6 +62,13 @@ pub fn process_image(image_stream: &mut Read) -> Result<Vec<Prediction>, String>
             .map_err(|err| format!("error running script: {}", err))
     );
 
+    if !out.status.success() {
+        return Err(format!(
+            "command returned unsuccessful exit status {}",
+            out.status
+        ));
+    }
+
     let result = String::from_utf8_lossy(&out.stdout).into_owned();
     let error = String::from_utf8_lossy(&out.stderr).into_owned();
     info!("json: {}", result);
