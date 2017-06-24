@@ -15,7 +15,7 @@ addons:
 
 install:
   - python --version
-  - pip3 install tensorflow
+  - pip install tensorflow
 
 script:
   # Copy testing env file if one exists
