@@ -1,3 +1,4 @@
+use std::env;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::Read;
@@ -48,14 +49,14 @@ pub fn process_image(image_stream: &mut Read) -> Result<Vec<Prediction>, String>
     }));
     let file_path = save_upload_to_tmp_file(&tmp_dir, image_stream)?;
 
-    // TODO: specify script location via .env like
-    // let script = env::var("SCRIPT_LOCATION").expect("SCRIPT_LOCATION must be set");
+    let script = match env::var("SCRIPT_LOCATION") {
+        Ok(s) => s,
+        Err(_) => "tensorflow_models/tutorials/image/imagenet".to_string(),
+    };
     debug!("--image_file {:?}", file_path);
     let out = try!(
         Command::new("python3")
-            .arg(
-                "tensorflow_models/tutorials/image/imagenet/classify_image.py",
-            )
+            .arg(format!("{}/classify_image.py", script))
             .arg("--image_file")
             .arg(file_path)
             .output()
