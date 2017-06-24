@@ -7,6 +7,11 @@ branches:
 
 cache: cargo
 
+addons:
+  apt:
+    packages:
+    - python
+
 script:
   # Copy testing env file if one exists
   - if [[ -f .env.testing ]]; then cp .env.testing .env; fi
