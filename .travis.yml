@@ -1,3 +1,5 @@
+dist: trusty
+sudo: required
 language: rust
 rust: nightly
 
@@ -7,9 +9,11 @@ branches:
 
 cache: cargo
 
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq python3 python3-pip
+addons:
+  apt:
+    packages:
+    - python3
+    - python3-pip
 
 install:
   - python --version
