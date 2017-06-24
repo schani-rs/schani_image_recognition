@@ -76,7 +76,7 @@ pub fn process_image(image_stream: &mut Read) -> Result<Vec<Prediction>, String>
     info!("json: {}", result);
     info!("error: {}", error);
     let predicitons: Vec<Prediction> = try!(serde_json::from_str(&result).map_err(|err| {
-        format!("could not parse json: {}", err)
+        format!("could not parse json: {}, original output: {}", err, result)
     }));
 
     info!("finished processing an image: {:?}", predicitons);
