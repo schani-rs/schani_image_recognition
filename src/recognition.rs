@@ -30,24 +30,27 @@ fn save_upload_to_tmp_file(
     let mut tmp_file = try!(File::create(&file_path).map_err(
         |_| "could not create temporary file",
     ));
-    if tmp_file.write_all(image.as_slice()).is_err() {
-        return Err("could not write to temporary file");
-    }
+    try!(tmp_file.write_all(image.as_slice()).map_err(
+        |_| "could not write to temporary file",
+    ));
+    try!(tmp_file.flush().map_err(
+        |_| "could not flush temporary file",
+    ));
 
     Ok(file_path)
 }
 
-pub fn process_image(image_stream: &mut Read) -> Result<Vec<Prediction>, &'static str> {
+pub fn process_image(image_stream: &mut Read) -> Result<Vec<Prediction>, String> {
     info!("start processing a new image …");
 
-    let tmp_dir = try!(Directory::new("image").map_err(
-        |_| "could not create temp dir",
-    ));
+    let tmp_dir = try!(Directory::new("image").map_err(|err| {
+        format!("could not create temp dir: {}", err)
+    }));
     let file_path = save_upload_to_tmp_file(&tmp_dir, image_stream)?;
 
     // TODO: specify script location via .env like
     // let script = env::var("SCRIPT_LOCATION").expect("SCRIPT_LOCATION must be set");
-    println!("--image_file {:?}", file_path);
+    debug!("--image_file {:?}", file_path);
     let out = try!(
         Command::new("python")
             .arg(
@@ -56,18 +59,18 @@ pub fn process_image(image_stream: &mut Read) -> Result<Vec<Prediction>, &'stati
             .arg("--image_file")
             .arg(file_path)
             .output()
-            .map_err(|_| "error running script")
+            .map_err(|err| format!("error running script: {}", err))
     );
 
     let result = String::from_utf8_lossy(&out.stdout).into_owned();
     let error = String::from_utf8_lossy(&out.stderr).into_owned();
     info!("json: {}", result);
     info!("error: {}", error);
-    let predicitons: Vec<Prediction> = try!(serde_json::from_str(&result).map_err(
-        |_| "could not parse json",
-    ));
+    let predicitons: Vec<Prediction> = try!(serde_json::from_str(&result).map_err(|err| {
+        format!("could not parse json: {}", err)
+    }));
 
-    println!("finished processing an image: {:?}", predicitons);
+    info!("finished processing an image: {:?}", predicitons);
     Ok(predicitons)
 }
 
