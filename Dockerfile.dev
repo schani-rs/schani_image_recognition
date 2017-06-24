@@ -1,0 +1,9 @@
+from python:latest
+
+RUN pip3 install --no-cache-dir tensorflow
+
+VOLUME ["/schani_image_recognition"]
+
+EXPOSE 8000
+
+ENTRYPOINT ["/schani_image_recognition/schani_image_recognition"]
