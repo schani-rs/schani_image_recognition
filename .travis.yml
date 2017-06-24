@@ -11,6 +11,11 @@ addons:
   apt:
     packages:
     - python
+    - python-pip
+
+install:
+  - python --version
+  - pip3 install tensorflow
 
 script:
   # Copy testing env file if one exists
