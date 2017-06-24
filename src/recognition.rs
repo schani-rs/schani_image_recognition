@@ -90,21 +90,15 @@ mod test {
     use std::io::BufReader;
 
     #[test]
-    fn test_process_sample1() {
+    fn test_process_sample_images() {
         let mut test_file_stream = File::open("resources/sample1.jpg").unwrap();
         let mut buf_read = BufReader::new(&mut test_file_stream);
         process_image(&mut buf_read).unwrap();
-    }
 
-    #[test]
-    fn test_process_sample2() {
         let mut test_file_stream = File::open("resources/sample2.jpg").unwrap();
         let mut buf_read = BufReader::new(&mut test_file_stream);
         process_image(&mut buf_read).unwrap();
-    }
 
-    #[test]
-    fn test_process_sample3() {
         let mut test_file_stream = File::open("resources/sample3.jpg").unwrap();
         let mut buf_read = BufReader::new(&mut test_file_stream);
         process_image(&mut buf_read).unwrap();
