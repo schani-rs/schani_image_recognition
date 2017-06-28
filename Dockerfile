@@ -1,11 +1,13 @@
-from debian:latest
+from python:latest
 
-RUN apt-get update
-RUN apt-get install -y \
-       python3.5 \
-       --no-install-recommends
+RUN pip3 install --no-cache-dir tensorflow
 
 COPY target/release/schani_image_recognition /usr/local/bin
+COPY tensorflow_models /tensorflow_models
+
+ENV SCRIPT_LOCATION /tensorflow_models/tutorials/image/imagenet
+ENV ROCKET_PORT 8000
+ENV ROCKET_ADDRESS 0.0.0.0
 
 EXPOSE 8000
 
